@@ -1,0 +1,71 @@
+---
+- name: 确保 home 目录存在
+  file:
+    path: "{{ ansible_env.HOME }}"
+    state: directory
+
+- name: 追加 bashrc 内容到目标机器的 .bashrc 文件
+  blockinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    block: "{{ lookup('file', role_path + '/files/bashrc') }}"
+    marker: "# {mark}"
+    marker_begin: "KUBECTL BEGIN"
+    marker_end: "KUBECTL END"
+    insertbefore: EOF
+    create: yes
+
+- name: 复制 kubectl_aliases 文件到目标机器
+  copy:
+    src: kubectl_aliases
+    dest: "{{ ansible_env.HOME }}/.kubectl_aliases"
+    mode: '0644'
+    force: no
+
+- name: 复制 kubectx.tar.gz 文件到目标机器
+  copy:
+    src: kubectx.tar.gz
+    dest: "{{ ansible_env.HOME }}/kubectx.tar.gz"
+    mode: '0644'
+    force: no
+
+- name: 检查 kubectx 是否已经在 /opt 目录下
+  stat:
+    path: "/opt/kubectx"
+  register: kubectx_installed
+
+- name: 解压 kubectx.tar.gz 文件
+  unarchive:
+    src: "{{ ansible_env.HOME }}/kubectx.tar.gz"
+    dest: "{{ ansible_env.HOME }}/"
+    remote_src: yes
+  when: not kubectx_installed.stat.exists
+
+- name: 确保 /opt 目录存在
+  file:
+    path: /opt
+    state: directory
+
+- name: 移动 kubectx 目录到 /opt
+  command: mv {{ ansible_env.HOME }}/kubectx /opt/kubectx
+  args:
+    creates: /opt/kubectx
+  when: not kubectx_installed.stat.exists
+
+- name: 确保 /usr/local/bin 目录存在
+  file:
+    path: /usr/local/bin
+    state: directory
+
+- name: 创建 kubectx 软链接
+  file:
+    src: /opt/kubectx/kubectx
+    dest: /usr/local/bin/kubectx
+    state: link
+    force: yes
+
+- name: 创建 kubens 软链接
+  file:
+    src: /opt/kubectx/kubens
+    dest: /usr/local/bin/kubens
+    state: link
+    force: yes 

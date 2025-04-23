@@ -1,0 +1,5 @@
+---
+- hosts: targets
+  roles:
+    - kubectl
+    # 添加其他角色在此处 

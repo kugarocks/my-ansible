@@ -1,0 +1,9 @@
+alias kn='kubens'
+alias kc='kubectx'
+
+# kubectl alias
+# load kubectl aliases file
+[ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
+
+# Print the full command before running it
+function kubectl() { echo "+ kubectl $@">&2; command kubectl $@; }
