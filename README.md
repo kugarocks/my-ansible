@@ -22,12 +22,6 @@ my-ansible/
 └── README.md            # 项目说明
 ```
 
-## kubectl
-
-- 将 `bashrc` 的内容追加到目标机器的 `~/.bashrc` 文件中
-- 将 `kubectl_aliases` 文件复制到目标机器的 `~/.kubectl_aliases`
-- 部署 `kubectx` 和 `kubens` 工具
-
 ## 使用方法
 
 运行部署脚本
@@ -76,6 +70,12 @@ docker run --rm -it \
 |---------|---------|
 | CentOS 7 | ✅ |
 | Ubuntu 22.04 | ✅ |
+
+## kubectl
+
+- 将 `bashrc` 的内容追加到目标机器的 `~/.bashrc` 文件中
+- 将 `kubectl_aliases` 文件复制到目标机器的 `~/.kubectl_aliases`
+- 部署 `kubectx` 和 `kubens` 工具
 
 ## 添加新角色
 
