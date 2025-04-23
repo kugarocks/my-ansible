@@ -1,6 +1,6 @@
-# my-ansible 环境部署工具
+# my-ansible
 
-这是一个使用 Ansible 自动化部署 `kubectl` 工具及相关配置的项目。
+* [kubectl](#kubectl): `kubectx` + `kubens` + `kubectl_alias`
 
 ## 目录结构
 
@@ -22,7 +22,7 @@ my-ansible/
 └── README.md            # 项目说明
 ```
 
-## 功能
+## kubectl
 
 - 将 `bashrc` 的内容追加到目标机器的 `~/.bashrc` 文件中
 - 将 `kubectl_aliases` 文件复制到目标机器的 `~/.kubectl_aliases`
